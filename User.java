@@ -37,7 +37,7 @@ public class User implements java.io.Serializable {
     public static void main(String[] args) {
         User T = new User();
         T.Baca();
-        // T.Tampil();
+        T.Tampil();
         T.TampilPass();
     }
 }
