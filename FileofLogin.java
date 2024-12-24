@@ -21,7 +21,7 @@ public class FileofLogin {
 
         try {
             // 1. buka file untuk ditulis
-            out = new ObjectOutputStream(new FileOutputStream("D:\\BAckup\\Desktop\\user.dat" + ""));// nama direktori+file
+            out = new ObjectOutputStream(new FileOutputStream("\\Data\\user.dat" + ""));// nama direktori+file
             BufferedReader brInput = new BufferedReader(new InputStreamReader(System.in));
             for (int i = 0; i < 3; i++) {
                 System.out.println("User : " + i);
@@ -42,7 +42,7 @@ public class FileofLogin {
         ObjectInputStream in = null;
         try {
             // 1. buka file untuk dibaca
-            in = new ObjectInputStream(new FileInputStream("D:\\BAckup\\Desktop\\user.dat"));
+            in = new ObjectInputStream(new FileInputStream("\\Data\\user.dat"));
             Object curR = in.readObject(); //fread
             try {
                 // 2. Baca dan proses setiap record yang dibaca
@@ -70,7 +70,7 @@ public class FileofLogin {
         Scanner sc = new Scanner(System.in);
 
         try {
-            in = new ObjectInputStream(new FileInputStream("D:\\BAckup\\Desktop\\user.dat"));
+            in = new ObjectInputStream(new FileInputStream("\\Data\\user.dat"));
 
             // Meminta input dari user untuk login
             System.out.print("Masukkan USERNAME: ");
