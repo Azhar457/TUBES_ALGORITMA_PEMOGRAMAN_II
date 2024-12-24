@@ -41,7 +41,4 @@ public class User implements java.io.Serializable {
         T.TampilPass();
     }
 }
-// Ini test
-// ini test dari rianda
-// ini  test dari widy
-// test fabregas
+// Muehehehe
