@@ -1,4 +1,4 @@
-package ARSIP;
+package TUBES_ALGORITMA_PEMOGRAMAN_II;
 
 import java.io.BufferedReader;
 import java.io.EOFException;
