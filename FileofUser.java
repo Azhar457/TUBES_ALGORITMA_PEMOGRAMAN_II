@@ -21,7 +21,7 @@ public class FileofUser {
 
         try {
             // 1. buka file untuk ditulis
-            out = new ObjectOutputStream(new FileOutputStream("\\data\\user.dat" + ""));// nama direktori+file
+            out = new ObjectOutputStream(new FileOutputStream("C:\\data\\user.dat" + ""));// nama direktori+file
             BufferedReader brInput = new BufferedReader(new InputStreamReader(System.in));
             for (int i = 0; i < 3; i++) {
                 System.out.println("User : " + i);
@@ -42,7 +42,7 @@ public class FileofUser {
         ObjectInputStream in = null;
         try {
             // 1. buka file untuk dibaca
-            in = new ObjectInputStream(new FileInputStream("\\data\\user.dat"));
+            in = new ObjectInputStream(new FileInputStream("C:\\data\\user.dat"));
             Object curR = in.readObject(); //fread
             try {
                 // 2. Baca dan proses setiap record yang dibaca
@@ -70,7 +70,7 @@ public class FileofUser {
         ObjectInputStream in = null;
         try {
             // 1. buka file untuk dibaca
-            in = new ObjectInputStream(new FileInputStream("\\data\\user.dat"));
+            in = new ObjectInputStream(new FileInputStream("C:\\data\\user.dat"));
             Object curR = in.readObject(); //fread
             try {
                 // 2. Baca dan proses setiap record yang dibaca
@@ -93,7 +93,7 @@ public class FileofUser {
 
     public static void main(String[] args) {
         FileofUser M = new FileofUser();
-//        M.safeToFile();
+        M.safeToFile();
         M.ViewFile();
         M.ViewPass();
     }
