@@ -42,5 +42,8 @@ public class User implements java.io.Serializable {
     }
 }
 // Ini test
-//TAMBAHAN
-// ini test 2
+<<<<<<< HEAD
+
+=======
+// ini test dari rianda
+>>>>>>> e2104f549e10f693b3467c689f3a2d7f500984c8
