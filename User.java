@@ -4,11 +4,13 @@ import java.util.Scanner;
 
 public class User implements java.io.Serializable {
 
-    String id, pass;
+    Character id, pass, nama;
+    Integer Saldo;
 
     public User() {
         id = "$";
         pass = "$";
+        Saldo = 0;
     }
 
     void Baca() {
