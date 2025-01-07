@@ -3,12 +3,16 @@ package TUBES_ALGORITMA_PEMOGRAMAN_II;
 import java.util.List;
 import java.util.Scanner;
 
-public class FileOfToko {
+public class FileOfToko implements java.io.Serializable {
 
     Scanner sc = new Scanner(System.in);
-    FileofUser fileOfUser = new FileofUser();
-    FileofLogin fileOfLogin = new FileofLogin();
-    FileofBarang fileOfBarang = new FileofBarang();
+    FileOfUser fileOfUser = new FileOfUser();
+    FileOfLogin fileOfLogin = new FileOfLogin();
+    FileOfBarang fileOfBarang = new FileOfBarang();
+    FileOfKasir fileOfKasir = new FileOfKasir();
+    User User = new User();
+    Kasir Kasir = new Kasir();
+    Barang Barang = new Barang();
 
     public void menuUtama() {
         while (true) {
@@ -39,7 +43,6 @@ public class FileOfToko {
     private void loginUser() {
         System.out.println("========== Login User ==========");
         fileOfLogin.Login();
-        // Jika login berhasil, tampilkan menu user
         menuUser();
     }
 
@@ -65,7 +68,9 @@ public class FileOfToko {
 
             switch (pilihan) {
                 case 1:
-                    // Implementasikan lihat saldo
+                    // Implementasikan tampil saldo
+
+                    User.tampilSaldo();
                     break;
                 case 2:
                     // Implementasikan tambah saldo
@@ -148,7 +153,7 @@ public class FileOfToko {
         System.out.print("Masukkan stok barang: ");
         int stok = sc.nextInt();
         sc.nextLine(); // consume newline
-        Barang barang = new Barang(nama, harga, stok);
+        Barang barang = new Barang();
         fileOfBarang.tambahBarang(barang);
         System.out.println("Barang berhasil ditambahkan.");
     }

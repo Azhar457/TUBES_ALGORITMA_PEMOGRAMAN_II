@@ -1,35 +1,23 @@
 package TUBES_ALGORITMA_PEMOGRAMAN_II;
 
-import java.io.BufferedReader;
-import java.io.EOFException;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.util.Scanner;
 
-public class FileofUser {
+public class FileOfUser {
 
+    private final String filePath = "C:\\Data\\user.dat";
     Scanner sc = new Scanner(System.in);
 
     void safeToFile() {
         User x = new User();
         System.out.println("========== SaveToFile ======");
-        ObjectOutputStream out = null;
-
-        try {
-            // 1. buka file untuk ditulis
-            out = new ObjectOutputStream(new FileOutputStream("C:\\data\\user.dat" + ""));// nama direktori+file
-            BufferedReader brInput = new BufferedReader(new InputStreamReader(System.in));
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filePath))) {
             for (int i = 0; i < 3; i++) {
                 System.out.println("User : " + i);
                 x.Baca();
-                out.writeObject(x);// tulis record ke file
+                out.writeObject(x);
                 x = new User();
             }
-            out.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -37,62 +25,42 @@ public class FileofUser {
 
     public void ViewFile() {
         int total = 0;
-        User x = new User();
         System.out.println("========== ViewFile ======");
-        ObjectInputStream in = null;
-        try {
-            // 1. buka file untuk dibaca
-            in = new ObjectInputStream(new FileInputStream("C:\\data\\user.dat"));
-            Object curR = in.readObject(); //fread
-            try {
-                // 2. Baca dan proses setiap record yang dibaca
-                while (true) {
-                    x = (User) curR;
-                    System.out.println("Record ke-" + (total + 1) + " : ");
-                    x.Tampil();
-                    total++;
-                    curR = in.readObject();
-                }
-            } catch (EOFException e) {
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filePath))) {
+            while (true) {
+                User x = (User) in.readObject();
+                System.out.println("Record ke-" + (total + 1) + " : ");
+                x.Tampil();
+                total++;
             }
-            System.out.println("\nTotal record : " + total);
-        } catch (ClassNotFoundException e) {
-            System.out.println("Class tidak ditemukan");
-        } catch (IOException e) {
+        } catch (EOFException e) {
+            // End of file reached
+        } catch (ClassNotFoundException | IOException e) {
             e.printStackTrace();
         }
+        System.out.println("\nTotal record : " + total);
     }
 
     public void ViewPass() {
         int total = 0;
-        User x = new User();
         System.out.println("========== ViewPass ======");
-        ObjectInputStream in = null;
-        try {
-            // 1. buka file untuk dibaca
-            in = new ObjectInputStream(new FileInputStream("C:\\data\\user.dat"));
-            Object curR = in.readObject(); //fread
-            try {
-                // 2. Baca dan proses setiap record yang dibaca
-                while (true) {
-                    x = (User) curR;
-                    System.out.println("Record ke-" + (total + 1) + " : ");
-                    x.TampilPass();
-                    total++;
-                    curR = in.readObject();
-                }
-            } catch (EOFException e) {
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filePath))) {
+            while (true) {
+                User x = (User) in.readObject();
+                System.out.println("Record ke-" + (total + 1) + " : ");
+                x.TampilPass();
+                total++;
             }
-            System.out.println("\nTotal record : " + total);
-        } catch (ClassNotFoundException e) {
-            System.out.println("Class tidak ditemukan");
-        } catch (IOException e) {
+        } catch (EOFException e) {
+            // End of file reached
+        } catch (ClassNotFoundException | IOException e) {
             e.printStackTrace();
         }
+        System.out.println("\nTotal record : " + total);
     }
 
     public static void main(String[] args) {
-        FileofUser M = new FileofUser();
+        FileOfUser M = new FileOfUser();
         M.safeToFile();
         M.ViewFile();
         M.ViewPass();

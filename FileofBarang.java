@@ -4,46 +4,44 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FileofBarang {
+public class FileOfBarang implements java.io.Serializable {
 
-    private final String filePath = "C:\\data\\barang.dat";
+    private final String filePath = "C:\\Data\\barang.dat";
 
-    public void tambahBarang(Barang barang) {
-        List<Barang> barangList = bacaBarang();
-        barangList.add(barang);
-        simpanBarang(barangList);
-    }
-
-    public void hapusBarang(String namaBarang) {
-        List<Barang> barangList = bacaBarang();
-        barangList.removeIf(barang -> barang.nama.equals(namaBarang));
-        simpanBarang(barangList);
-    }
-
-    public List<Barang> bacaBarang() {
-        List<Barang> barangList = new ArrayList<>();
-        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filePath))) {
-            barangList = (List<Barang>) in.readObject();
-        } catch (EOFException e) {
-            // End of file reached
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return barangList;
-    }
-
-    private void simpanBarang(List<Barang> barangList) {
+    void safeToFile(List<Barang> barangList) {
+        System.out.println("========== SaveToFile ======");
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filePath))) {
-            out.writeObject(barangList);
+            for (Barang barang : barangList) {
+                out.writeObject(barang);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void tampilBarang() {
-        List<Barang> barangList = bacaBarang();
+    public List<Barang> ViewFile() {
+        List<Barang> barangList = new ArrayList<>();
+        System.out.println("========== ViewFile ======");
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filePath))) {
+            while (true) {
+                Barang barang = (Barang) in.readObject();
+                barangList.add(barang);
+            }
+        } catch (EOFException e) {
+            // End of file reached
+        } catch (ClassNotFoundException | IOException e) {
+            e.printStackTrace();
+
+
+}
+        return barangList;
+    }
+
+    public void tampil() {
+        List<Barang> barangList = ViewFile();
         for (Barang barang : barangList) {
             barang.tampil();
         }
     }
+
 }
