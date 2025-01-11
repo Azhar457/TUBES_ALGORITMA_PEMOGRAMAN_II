@@ -25,6 +25,9 @@ public class MainProgram {
                 case 2:
                     System.out.println("Terima kasih telah menggunakan program ini.");
                     System.exit(0);
+                case 3:
+                    adduser();
+                    break;
                 default:
                     System.out.println("Pilihan tidak valid.");
             }
@@ -83,6 +86,19 @@ public class MainProgram {
         }
     }
 
+    private static void adduser() {
+        System.out.println("========== Tambah User ==========");
+        System.out.print("Masukkan Username: ");
+        String id = sc.nextLine();
+        System.out.print("Masukkan Password: ");
+        String pass = sc.nextLine();
+        System.out.print("Masukkan Role (Kasir/Customer): ");
+        String role = sc.nextLine();
+        User U = new User(id, pass, role);
+        U.saveToFile();
+        System.out.println("User berhasil ditambahkan.");
+    }
+
     private static void customerMenu() {
         int choice;
         while (true) {
@@ -122,66 +138,16 @@ public class MainProgram {
 
     private static void viewBarang() {
         System.out.println("========== Daftar Barang ==========");
-        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("C:\\Data\\barang.dat"))) {
-            while (true) {
-                Barang barang = (Barang) in.readObject();
+        List<Barang> barangList = Barang.readAllFromFile(); // Baca semua barang dari file
+        if (barangList.isEmpty()) {
+            System.out.println("Tidak ada barang yang tersedia.");
+        } else {
+            for (Barang barang : barangList) {
                 barang.display();
             }
-        } catch (EOFException e) {
-            System.out.println("-- Akhir dari daftar --");
-        } catch (ClassNotFoundException | IOException e) {
-            e.printStackTrace();
         }
-    }
-}
-
-class User implements Serializable {
-
-    String id;
-    String pass;
-    String role; // Kasir atau Customer
-
-    User(String id, String pass, String role) {
-        this.id = id;
-        this.pass = pass;
-        this.role = role;
+        System.out.println("-- Akhir dari daftar --");
     }
 
-    void read() {
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Masukkan USERNAME: ");
-        this.id = sc.nextLine();
-        System.out.print("Masukkan PASSWORD: ");
-        this.pass = sc.nextLine();
-        System.out.print("Masukkan ROLE (Kasir/Customer): ");
-        this.role = sc.nextLine();
-    }
-}
-
-class Barang implements Serializable {
-
-    String nama;
-    double harga;
-    int stok;
-
-    Barang(String nama, double harga, int stok) {
-        this.nama = nama;
-        this.harga = harga;
-        this.stok = stok;
-    }
-
-    void saveToFile() {
-        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("C:\\Data\\barang.dat", true))) {
-            out.writeObject(this);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    void display() {
-        System.out.println("Nama: " + this.nama);
-        System.out.println("Harga: " + this.harga);
-        System.out.println("Stok: " + this.stok);
-        System.out.println("------------------------");
-    }
+    private
 }
