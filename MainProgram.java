@@ -149,5 +149,4 @@ public class MainProgram {
         System.out.println("-- Akhir dari daftar --");
     }
 
-    private
 }
