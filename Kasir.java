@@ -5,7 +5,7 @@ import java.util.*;
 
 public class Kasir implements Serializable {
 
-    private static final String filePath = "C:\\Data\\kasir.dat";
+    private static final String FILE_PATH = "C:\\Data\\kasir.dat";
     private static final long serialVersionUID = 1L;
 
     private String id;
@@ -18,40 +18,76 @@ public class Kasir implements Serializable {
         this.password = password;
     }
 
-    public static List<Kasir> loadAll() {
-        List<Kasir> kasirs = new ArrayList<>();
-        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filePath))) {
-            while (true) {
-                kasirs.add((Kasir) in.readObject());
-            }
-        } catch (EOFException e) {
-            // End of file reached
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return kasirs;
-    }
-
-    public static void saveAll(List<Kasir> kasirs) {
-        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filePath))) {
-            for (Kasir k : kasirs) {
-                out.writeObject(k);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public boolean authenticate(String username, String password) {
-        return this.username.equals(username) && this.password.equals(password);
-    }
-
+    // Getter methods
     public String getId() {
         return id;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    // Method untuk autentikasi
+    public boolean authenticate(String username, String password) {
+        return this.username.equals(username) && this.password.equals(password);
+    }
+
+    // Method untuk load data dari file
+    public static List<Kasir> loadAll() {
+        List<Kasir> kasirs = new ArrayList<>();
+        File file = new File(FILE_PATH);
+
+        // Buat direktori jika belum ada
+        if (!file.getParentFile().exists()) {
+            file.getParentFile().mkdirs();
+        }
+
+        // Jika file belum ada, return list kosong
+        if (!file.exists()) {
+            return kasirs;
+        }
+
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(file))) {
+            while (true) {
+                try {
+                    Kasir kasir = (Kasir) in.readObject();
+                    kasirs.add(kasir);
+                } catch (EOFException e) {
+                    break;
+                }
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Error loading kasir data: " + e.getMessage());
+        }
+
+        return kasirs;
+    }
+
+    // Method untuk save data ke file
+    public static void saveAll(List<Kasir> kasirs) {
+        File file = new File(FILE_PATH);
+
+        // Buat direktori jika belum ada
+        if (!file.getParentFile().exists()) {
+            file.getParentFile().mkdirs();
+        }
+
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file))) {
+            for (Kasir kasir : kasirs) {
+                out.writeObject(kasir);
+            }
+        } catch (IOException e) {
+            System.out.println("Error saving kasir data: " + e.getMessage());
+        }
+    }
+
     @Override
     public String toString() {
-        return "ID: " + id + ", Username: " + username;
+        return String.format("Kasir[ID: %s, Username: %s]",
+                id, username);
     }
 }
